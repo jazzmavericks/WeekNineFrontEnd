@@ -8,31 +8,40 @@ import Listusers from './components/listusers';
 function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const [userList, setUserList] = useState([]);
 
   return (
     <div className="App">
-      <div className="forms-container">
-        <Register
-          setEmail={setEmail}
-          email={email}
-          setPassword={setPassword}
-          password={password}>  
-        </Register>
-        <Login
-          setEmail={setEmail}
-          email={email}
-          setPassword={setPassword}
-          password={password}>  
-        </Login>
+      {!loggedIn && <div className="forms-container">
+          {!loggedIn && <Register
+            setEmail={setEmail}
+            email={email}
+            setPassword={setPassword}
+            password={password}>  
+            setLoggedIn={setLoggedIn}
+          </Register>}
+          {!loggedIn && <Login
+            setEmail={setEmail}
+            email={email}
+            setPassword={setPassword}
+            password={password}
+            setLoggedIn={setLoggedIn}>  
+          </Login>}
+      </div>}
+      <div className="listUsersSection">
+        {loggedIn ? <Listusers
+            setUserList={setUserList}
+            userList={userList}>
+        </Listusers> : <h3>Login to view a full list of registered users</h3>}
       </div>
       <div className="logoutSection">
-      <Logout></Logout>
-      </div>
-      <div className="listUsersSection">
-      <Listusers>
-
-      </Listusers>
+        {loggedIn ? <Logout
+          setLoggedIn={setLoggedIn}
+          setUserList={setUserList}
+          setEmail={setEmail}>
+        </Logout> : <h3></h3>}
       </div>
     </div>
   );

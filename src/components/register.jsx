@@ -1,7 +1,7 @@
 import { writecookie } from "../utils/utilities";
 
 function Register(props) {
-    async function sendRegisterToBackEnd(email, password) {
+    async function sendRegisterToBackEnd(email, password, setLoggedIn, setRegistered) {
         try {
             const response = await fetch(
                 "http://localhost:5001/register",
@@ -17,6 +17,8 @@ function Register(props) {
             const data = await response.json();
             console.log(data.token);
             writecookie("jwt_token",data.token,7);
+            setLoggedIn(false);
+            setRegistered(true);
         } catch (error) {
             console.log(error)
         }
@@ -24,7 +26,7 @@ function Register(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        sendRegisterToBackEnd(props.email, props.password)
+        sendRegisterToBackEnd(props.email, props.password, props.setLoggedIn, props.setRegistered)
     }
      console.log(props.email)
     return (
